@@ -3,7 +3,7 @@ pipeline {
     agent {
         kubernetes {
             defaultContainer 'jdk'
-            workspaceVolume dynamicPVC(requestsSize "1Gi")
+            workspaceVolume dynamicPVC(requestsSize "1G")
             yaml '''
 apiVersion: v1
 kind: Pod
