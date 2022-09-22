@@ -3,12 +3,15 @@ pipeline {
     agent {
         kubernetes {
             defaultContainer 'jdk'
+            workspaceVolume dynamicPVC(requestsSize "1Gi")
             yaml '''
 apiVersion: v1
 kind: Pod
 spec:
   securityContext:
-    runAsUser: 1001
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
   containers:
     - name: jdk
       image: docker.io/eclipse-temurin:18.0.2.1_1-jdk
@@ -24,6 +27,7 @@ spec:
         - infinity
       securityContext:
         privileged: true
+        runAsUser: 0
     - name: aks
       image: acrdvpsplatformdev.azurecr.io/devops-platform-image:v0.0.5
       command:
